@@ -59,17 +59,13 @@ class Printdot(threading.Thread):
 def main(argv):
   # Parse the command-line flags.
   flags = parser.parse_args(argv[1:])
-
-  # If the credentials don't exist or are invalid run through the native client
-  # flow. The Storage object will ensure that if successful the good
-  # credentials will get written back to the file.
   storage = file.Storage('sample.dat')
   credentials = storage.get()
   if credentials is None or credentials.invalid:
     credentials = tools.run_flow(FLOW, storage, flags)
 
   # Create an httplib2.Http object to handle our HTTP requests and authorize it
-  # with our good Credentials.
+  # with Credentials.
   http = httplib2.Http()
   http = credentials.authorize(http)
 
